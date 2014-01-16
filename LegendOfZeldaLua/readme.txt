@@ -1,16 +1,10 @@
 For use with "Legend of Zelda, The (U) (PRG0) [!].nes" rom with FCEUX
 Written by sleepy - Shawn M. Crawford
-6 January 2014
-Displays Player Coordinates, HP, and Enemy HP stats on screen.
+16 January 2014
+Displays game stats.
 
-LegendOfZeldaStatsDynamic.lua:
-The HP stats follow the characters.
-
-LegendOfZeldaStatsStatic.lua
-The HP stats are statically set in the upper left corner of the screen.
 
 Noted offsets:
-
 
 0x004C 	Countdown until Link can use his sword again after touching a White Bubble
 0x0070 	Link's X-position on the screen 
@@ -80,6 +74,7 @@ YOU ARE HERE
 0x0664 	Magical Key in Inventory 	$00=False, $01=True
 0x0665 	Power Bracelet in Invenotry 	$00=False, $01=True
 0x0666 	Letter in Inventory 	$00=False, $01=True, Link can buy potions from the old woman if $02.
+
 0x0667 	Compass status for Levels 1 through 8 	When value is converted to binary, a $01 represents having the Compass and a $00 represents not having it.
 0x0668 	Map status for Levels 1 through 8 	When value is converted to binary, a $01 represents having the Map and a $00 represents not having it.
 0x0669 	Level 9 Compass possessed 	$00=False, $01=True
@@ -111,6 +106,7 @@ Ex: $10 = 2 Heart Containers with none filled
 0x0671 	Triforce pieces 	When value is converted to binary, a $01 represents having the piece and a $00 represents not having it.
 
 See this image for a visualization.
+
 0x0674 	Boomerang in Inventory 	$00=False, $01=True. Note: 0x0675 overrides this variable.
 0x0675 	Magical Boomerang in Inventory 	$00=False, $01=True.
 0x0676 	Magic Shield in Inventory 	$00=False, $01=True.
