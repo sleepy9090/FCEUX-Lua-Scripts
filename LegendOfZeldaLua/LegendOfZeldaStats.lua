@@ -1,11 +1,12 @@
 
 -- Legend of Zelda, The (U) (PRG0) [!].nes
 -- Written by sleepy - Shawn M. Crawford
--- 12 January 2014
--- Displays game stats.
+-- 16 January 2014
+-- Displays game stats in a gui.
 
 require 'auxlib';
 
+-- labels
 local numheartslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
 local filledheartslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
 local linkxlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
@@ -36,12 +37,12 @@ local maplocationlabel =  iup.label{size="35x8",title="Initializing...", alignme
 local usedcandlelabel =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
 local sworddisabledlabel =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
 local killedenemycountlabel =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
---local currentQuestslot1label =  iup.label{size="150x8",title="Initializing...", alignment="ACENTER"};
---local currentQuestslot2label =  iup.label{size="150x8",title="Initializing...", alignment="ACENTER"};
---local currentQuestslot3label =  iup.label{size="150x8",title="Initializing...", alignment="ACENTER"};
---local numdeathsslot1label =  iup.label{size="150x8",title="Initializing...", alignment="ACENTER"};
---local numdeathsslot2label =  iup.label{size="150x8",title="Initializing...", alignment="ACENTER"};
---local numdeathsslot3label = iup.label{size="150x8",title="Initializing...", alignment="ACENTER"};
+local currentQuestslot1label =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
+local currentQuestslot2label =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
+local currentQuestslot3label =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
+local numdeathsslot1label =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
+local numdeathsslot2label =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
+local numdeathsslot3label = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
 local curposbitemlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
 local currentswordlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
 local numbombslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
@@ -73,15 +74,86 @@ local mshieldininventorylabel = iup.label{size="35x8",title="Initializing...", a
 local maxnumbombslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
 local numrupeestoaddlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
 local numrupeestosublabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
---local linkstuniccolorlabel = iup.label{size="150x8",title="Initializing...", alignment="ACENTER"};
---local linkstuniccoloraltlabel = iup.label{size="150x8",title="Initializing...", alignment="ACENTER"};
+local linkstuniccolorlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
+local linkstuniccoloraltlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
 
-
+-- toggles
+local numheartstoggle = iup.toggle{size="150x8",title="Max heart containers", value="OFF"};
+local filledheartstoggle = iup.toggle{size="150x8",title="Fill heart containers", value="OFF"};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+local swordwbubcntdowntoggle = iup.toggle{size="150x8",title="Use sword now", value="OFF"};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+iup.label{size="150x8",title=""};
+local pausedtoggle = iup.toggle{size="150x8",title="Pause", value="OFF"};
+iup.label{size="150x8",title=""};
+local usedcandletoggle = iup.toggle{size="150x8",title="Clear Candle used", value="OFF"};
+local sworddisabledtoggle = iup.toggle{size="150x8",title="Clear Sword disabled", value="OFF"};
+local killedenemycounttoggle = iup.toggle{size="150x8",title="Max Killed enemy count", value="OFF"};
+local currentQuestslot1toggle = iup.toggle{size="150x8",title="Set current quest to quest 2", value="OFF"};
+local currentQuestslot2toggle = iup.toggle{size="150x8",title="Set current quest to quest 2", value="OFF"};
+local currentQuestslot3toggle = iup.toggle{size="150x8",title="Set current quest to quest 2", value="OFF"};
+local numdeathsslot1toggle = iup.toggle{size="150x8",title="Reset number of deaths to 0", value="OFF"};
+local numdeathsslot2toggle = iup.toggle{size="150x8",title="Reset number of deaths to 0", value="OFF"};
+local numdeathsslot3toggle = iup.toggle{size="150x8",title="Reset number of deaths to 0", value="OFF"},
+iup.label{size="150x8",title=""};
+local currentswordtoggle = iup.toggle{size="150x8",title="Set current sword", value="OFF"}; --drop down or buttons
+local numbombstoggle = iup.toggle{size="150x8",title="Max out current bombs", value="OFF"};
+local arrowstatustoggle = iup.toggle{size="150x8",title="Set current arrow", value="OFF"}; --drop down or buttons
+local bowininventorytoggle = iup.toggle{size="150x8",title="Add bow to inventory", value="OFF"};
+local candlestatustoggle = iup.toggle{size="150x8",title="Set current candle", value="OFF"}; --drop down or buttons
+local whistleininventorytoggle = iup.toggle{size="150x8",title="Add whistle to inventory", value="OFF"};
+local foodininventorytoggle = iup.toggle{size="150x8",title="Add food to inventory", value="OFF"};
+local potionininventorytoggle = iup.toggle{size="150x8",title="Add potion to inventory", value="OFF"};
+local magicrodininventorytoggle = iup.toggle{size="150x8",title="Add magic rod to inventory", value="OFF"};
+local raftininventorytoggle = iup.toggle{size="150x8",title="Add raft to inventory", value="OFF"};
+local magicbookininventorytoggle = iup.toggle{size="150x8",title="Add magic book to inventory", value="OFF"};
+local ringininventorytoggle = iup.toggle{size="150x8",title="Add ring to inventory", value="OFF"};
+local stepladdertoggle = iup.toggle{size="150x8",title="Add step ladder to inventory", value="OFF"};
+local magicalkeyininventorytoggle = iup.toggle{size="150x8",title="Add magical key to inventory", value="OFF"};
+local powerbraceletininventorytoggle = iup.toggle{size="150x8",title="Add power bracelet to inventory", value="OFF"};
+local letterininventorytoggle = iup.toggle{size="150x8",title="Add letter to inventory", value="OFF"};
+local compassstatustoggle = iup.toggle{size="150x8",title="Add compass to inventory", value="OFF"};
+local mapstatustoggle = iup.toggle{size="150x8",title="Add map to inventory", value="OFF"};
+local level9compasspossessedtoggle = iup.toggle{size="150x8",title="Add level 9 compass to inventory", value="OFF"};
+local level9mappossessedtoggle = iup.toggle{size="150x8",title="Add level 9 map to inventory", value="OFF"};
+local clockpossessedtoggle = iup.toggle{size="150x8",title="Toggle clock", value="OFF"};
+local numberofrupeestoggle = iup.toggle{size="150x8",title="Max out rupees", value="OFF"};
+local numberofkeystoggle = iup.toggle{size="150x8",title="Max out keys", value="OFF"};
+local triforcepiecestoggle = iup.toggle{size="150x8",title="Max out triforce pieces", value="OFF"};
+local boomerangininventorytoggle = iup.toggle{size="150x8",title="Add boomerang to inventory", value="OFF"};
+local mboomerangininventorytoggle = iup.toggle{size="150x8",title="Add magical boomerange to inventory", value="OFF"};
+local mshieldininventorytoggle = iup.toggle{size="150x8",title="Add magic shield to inventory", value="OFF"};
+local maxnumbombstoggle = iup.toggle{size="150x8",title="Max out total bombs", value="OFF"};
+local numrupeestoaddtoggle = iup.toggle{size="150x8",title="Add 255 rupees", value="OFF"}; --drop down or buttons
+local numrupeestosubtoggle = iup.toggle{size="150x8",title="Subtract 255 rupees", value="OFF"}; --drop down or buttons
+local linkstuniccolortoggle = iup.toggle{size="150x8",title="Set Links tunic color red", value="OFF"}; --drop down or buttons
+local linkstuniccoloralttoggle = iup.toggle{size="150x8",title="Set Links tunic color red alt", value="OFF"}; --drop down or buttons
 
 dialogs = dialogs + 1;
 	handles[dialogs] =
 		iup.dialog{
-			title="The Lua of Zelda",
+			RESIZE="NO",
+			MAXBOX="NO",
+			title="The Lua of Zelda - Developed by Shawn M. Crawford [sleepy9090]",
 		    iup.vbox{
 				iup.hbox{
 				    iup.frame{
@@ -117,45 +189,11 @@ dialogs = dialogs + 1;
 						  iup.label{size="150x8",title="Used candle"},
 						  iup.label{size="150x8",title="Sword disabled"},
 						  iup.label{size="150x8",title="Killed enemy count"},
-						  --iup.label{size="150x8",title="Current quest slot 1"},
-						  --iup.label{size="150x8",title="Current quest slot 2"},
-						  --iup.label{size="150x8",title="Current quest slot 3"},
-						  --iup.label{size="150x8",title="Number of deaths slot 1"},
-						  --iup.label{size="150x8",title="Number of deaths slot 2"},
-						  --iup.label{size="150x8",title="Number of deaths slot 3"},
-						  iup.label{size="150x8",title="Curser position B item"},
-						  iup.label{size="150x8",title="Current sword"},
-						  iup.label{size="150x8",title="Number of bombs"},
-						  iup.label{size="150x8",title="Current arrow"},
-						  iup.label{size="150x8",title="Bow in current inventory"},
-						  iup.label{size="150x8",title="Candle in current inventory"},
-						  iup.label{size="150x8",title="Whistle in current inventory"},
-						  iup.label{size="150x8",title="Food in current inventory"},
-						  iup.label{size="150x8",title="Potion in current inventory"},
-						  iup.label{size="150x8",title="Magic Rod in current inventory"},
-						  iup.label{size="150x8",title="Raft in current inventory"},
-						  iup.label{size="150x8",title="Magic Book in current inventory"},
-						  iup.label{size="150x8",title="Ring in current inventory"},
-						  iup.label{size="150x8",title="Step Ladder in current inventory"},
-						  iup.label{size="150x8",title="Magical Key in current inventory"},
-						  iup.label{size="150x8",title="Power Bracelet in current inventory"},
-						  iup.label{size="150x8",title="Letter in current inventory"},
-						  --iup.label{size="150x8",title="Current dungeon compass in current inventory"},
-						  --iup.label{size="150x8",title="Current dungeon map in current inventory"},
-						  --iup.label{size="150x8",title="Level 9 compass in current inventory"},
-						  --iup.label{size="150x8",title="Level 9 map in current inventory"},
-						  --iup.label{size="150x8",title="Clock status"},
-						  --iup.label{size="150x8",title="Number of rupees"},
-						  --iup.label{size="150x8",title="Number of keys"},
-						  --iup.label{size="150x8",title="Number of triforce pieces"},
-						  --iup.label{size="150x8",title="Boomerang in current inventory"},
-						  --iup.label{size="150x8",title="Magic boomerang in current inventory"},
-						  --iup.label{size="150x8",title="Magic shield in current inventory"},
-						  --iup.label{size="150x8",title="Maximum number of bombs"},
-						  --iup.label{size="150x8",title="Number of rupees adding"},
-						  --iup.label{size="150x8",title="Number of rupees subtracting"},
-						  --iup.label{size="150x8",title="Color of Link's tunic"},
-						  --iup.label{size="150x8",title="Color of Link's tunic alt"},
+						  iup.label{size="150x8",title="Current quest slot 1"},
+						  iup.label{size="150x8",title="Current quest slot 2"},
+						  iup.label{size="150x8",title="Current quest slot 3"},
+						  iup.label{size="150x8",title="Number of deaths slot 1"},
+						  iup.label{size="150x8",title="Number of deaths slot 2"},
 						}
 				    },
 				    iup.frame{
@@ -191,12 +229,96 @@ dialogs = dialogs + 1;
 							usedcandlelabel,
 							sworddisabledlabel,
 							killedenemycountlabel,
-							--currentQuestslot1label,
-							--currentQuestslot2label,
-							--currentQuestslot3label,
-							--numdeathsslot1label,
-							--numdeathsslot2label,
-							--numdeathsslot3label,
+							currentQuestslot1label,
+							currentQuestslot2label,
+							currentQuestslot3label,
+							numdeathsslot1label,
+							numdeathsslot2label,
+							}
+				    },
+				    iup.frame{
+						title="Toggle",
+						iup.vbox{
+							  numheartstoggle,
+							  filledheartstoggle,
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  swordwbubcntdowntoggle,
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  iup.label{size="150x8",title=""},
+							  pausedtoggle,
+							  iup.label{size="150x8",title=""},
+							  usedcandletoggle,
+							  sworddisabledtoggle,
+							  killedenemycounttoggle,
+							  currentQuestslot1toggle,
+							  currentQuestslot2toggle,
+							  currentQuestslot3toggle,
+							  numdeathsslot1toggle,
+							  numdeathsslot2toggle,
+						}
+				    },
+					iup.frame{
+				  	title="Description",
+						iup.vbox{
+							iup.label{size="150x8",title="Number of deaths slot 3"},
+							iup.label{size="150x8",title="Curser position B item"},
+							iup.label{size="150x8",title="Current sword"},
+							iup.label{size="150x8",title="Number of bombs"},
+							iup.label{size="150x8",title="Current arrow"},
+							iup.label{size="150x8",title="Bow in current inventory"},
+							iup.label{size="150x8",title="Candle in current inventory"},
+							iup.label{size="150x8",title="Whistle in current inventory"},
+							iup.label{size="150x8",title="Food in current inventory"},
+							iup.label{size="150x8",title="Potion in current inventory"},
+							iup.label{size="150x8",title="Magic Rod in current inventory"},
+							iup.label{size="150x8",title="Raft in current inventory"},
+							iup.label{size="150x8",title="Magic Book in current inventory"},
+							iup.label{size="150x8",title="Ring in current inventory"},
+							iup.label{size="150x8",title="Step Ladder in current inventory"},
+							iup.label{size="150x8",title="Magical Key in current inventory"},
+							iup.label{size="150x8",title="Power Bracelet in current inventory"},
+							iup.label{size="150x8",title="Letter in current inventory"},
+							iup.label{size="150x8",title="Current dungeon compass in current inventory"},
+							iup.label{size="150x8",title="Current dungeon map in current inventory"},
+							iup.label{size="150x8",title="Level 9 compass in current inventory"},
+							iup.label{size="150x8",title="Level 9 map in current inventory"},
+							iup.label{size="150x8",title="Clock status"},
+							iup.label{size="150x8",title="Number of rupees"},
+							iup.label{size="150x8",title="Number of keys"},
+							iup.label{size="150x8",title="Number of triforce pieces"},
+							iup.label{size="150x8",title="Boomerang in current inventory"},
+							iup.label{size="150x8",title="Magic boomerang in current inventory"},
+							iup.label{size="150x8",title="Magic shield in current inventory"},
+							iup.label{size="150x8",title="Maximum number of bombs"},
+							iup.label{size="150x8",title="Number of rupees adding"},
+							iup.label{size="150x8",title="Number of rupees subtracting"},
+							iup.label{size="150x8",title="Color of Link's tunic"},
+							iup.label{size="150x8",title="Color of Link's tunic alt"},
+						},
+					},
+					iup.frame{
+						title="Current",
+						iup.vbox{
+							numdeathsslot3label,
 							curposbitemlabel,
 							currentswordlabel,
 							numbombslabel,
@@ -214,98 +336,63 @@ dialogs = dialogs + 1;
 							magicalkeyininventorylabel,
 							powerbraceletininventorylabel,
 							letterininventorylabel,
-							--compassstatuslabel,
-							--mapstatuslabel,
-							--level9compasspossessedlabel,
-							--level9mappossessedlabel,
-							--clockpossessedlabel,
-							--numberofrupeeslabel,
-							--numberofkeyslabel,
-							--triforcepieceslabel,
-							--boomerangininventorylabel,
-							--mboomerangininventorylabel,
-							--mshieldininventorylabel,
-							--maxnumbombslabel,
-							--numrupeestoaddlabel,
-							--numrupeestosublabel,
-							--linkstuniccolorlabel,
-							--linkstuniccoloraltlabel,
-							}
-				    },
-				    iup.frame{
-						title="Toggle",
+							compassstatuslabel,
+							mapstatuslabel,
+							level9compasspossessedlabel,
+							level9mappossessedlabel,
+							clockpossessedlabel,
+							numberofrupeeslabel,
+							numberofkeyslabel,
+							triforcepieceslabel,
+							boomerangininventorylabel,
+							mboomerangininventorylabel,
+							mshieldininventorylabel,
+							maxnumbombslabel,
+							numrupeestoaddlabel,
+							numrupeestosublabel,
+							linkstuniccolorlabel,
+							linkstuniccoloraltlabel,
+						},
+					},
+					iup.frame{
+				  	title="Toggle",
 						iup.vbox{
-							  iup.toggle{size="150x8",title="Max heart containers", value="OFF"},
-							  iup.toggle{size="150x8",title="Fill heart containers", value="OFF"},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.toggle{size="150x8",title="Use sword now", value="OFF"},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.label{size="150x8",title=""},
-							  iup.toggle{size="150x8",title="Pause", value="OFF"},
-							  iup.label{size="150x8",title=""},
-							  iup.toggle{size="150x8",title="Candle used", value="OFF"},
-							  iup.toggle{size="150x8",title="Sword disabled", value="OFF"},
-							  iup.toggle{size="150x8",title="Killed enemy count", value="OFF"},
-							  --iup.toggle{size="150x8",title="Set current quest to quest 2", value="OFF"},
-							  --iup.toggle{size="150x8",title="Set current quest to quest 2", value="OFF"},
-							  --iup.toggle{size="150x8",title="Set current quest to quest 2", value="OFF"},
-							  --iup.toggle{size="150x8",title="Reset number of deaths to 0", value="OFF"},
-							  --iup.toggle{size="150x8",title="Reset number of deaths to 0", value="OFF"},
-							  --iup.toggle{size="150x8",title="Reset number of deaths to 0", value="OFF"},
-							  iup.label{size="150x8",title=""},
-							  iup.toggle{size="150x8",title="Set current sword", value="OFF"}, --drop down or buttons
-							  iup.toggle{size="150x8",title="Max out current bombs", value="OFF"},
-							  iup.toggle{size="150x8",title="Set current arrow", value="OFF"}, --drop down or buttons
-							  iup.toggle{size="150x8",title="Add bow to inventory", value="OFF"},
-							  iup.toggle{size="150x8",title="Set current candle", value="OFF"}, --drop down or buttons
-							  iup.toggle{size="150x8",title="Add whistle to inventory", value="OFF"},
-							  iup.toggle{size="150x8",title="Add food to inventory", value="OFF"},
-							  iup.toggle{size="150x8",title="Add potion to inventory", value="OFF"},
-							  iup.toggle{size="150x8",title="Add magic rod to inventory", value="OFF"},
-							  iup.toggle{size="150x8",title="Add raft to inventory", value="OFF"},
-							  iup.toggle{size="150x8",title="Add magic book to inventory", value="OFF"},
-							  iup.toggle{size="150x8",title="Add ring to inventory", value="OFF"},
-							  iup.toggle{size="150x8",title="Add step ladder to inventory", value="OFF"},
-							  iup.toggle{size="150x8",title="Add magical key to inventory", value="OFF"},
-							  iup.toggle{size="150x8",title="Add power bracelet to inventory", value="OFF"},
-							  iup.toggle{size="150x8",title="Add letter to inventory", value="OFF"},
-							  --iup.toggle{size="150x8",title="Add compass to inventory", value="OFF"},
-							  --iup.toggle{size="150x8",title="Add map to inventory", value="OFF"},
-							  --iup.toggle{size="150x8",title="Add level 9 compass to inventory", value="OFF"},
-							  --iup.toggle{size="150x8",title="Add level 9 map to inventory", value="OFF"},
-							  --iup.toggle{size="150x8",title="Toggle clock", value="OFF"},
-							  --iup.toggle{size="150x8",title="Max out rupees", value="OFF"},
-							  --iup.toggle{size="150x8",title="Max out keys", value="OFF"},
-							  --iup.toggle{size="150x8",title="Max out triforce pieces", value="OFF"},
-							  --iup.toggle{size="150x8",title="Add boomerang to inventory", value="OFF"},
-							  --iup.toggle{size="150x8",title="Add magical boomerange to inventory", value="OFF"},
-							  --iup.toggle{size="150x8",title="Add magic shield to inventory", value="OFF"},
-							  --iup.toggle{size="150x8",title="Max out total bombs", value="OFF"},
-							  --iup.toggle{size="150x8",title="Add rupees", value="OFF"}, --drop down or buttons
-							  --iup.toggle{size="150x8",title="Subtract rupees", value="OFF"}, --drop down or buttons
-							  --iup.toggle{size="150x8",title="Set Links tunic color", value="OFF"}, --drop down or buttons
-							  --iup.toggle{size="150x8",title="Set Links tunic color alt", value="OFF"}, --drop down or buttons
-						}
-				    },
+						numdeathsslot3toggle,
+						iup.label{size="150x8",title=""},
+						currentswordtoggle, --drop down or buttons
+						numbombstoggle,
+						arrowstatustoggle, --drop down or buttons
+						bowininventorytoggle,
+						candlestatustoggle, --drop down or buttons
+						whistleininventorytoggle,
+						foodininventorytoggle,
+						potionininventorytoggle,
+						magicrodininventorytoggle,
+						raftininventorytoggle,
+						magicbookininventorytoggle,
+						ringininventorytoggle,
+						stepladdertoggle,
+						magicalkeyininventorytoggle,
+						powerbraceletininventorytoggle,
+						letterininventorytoggle,
+						compassstatustoggle,
+						mapstatustoggle,
+						level9compasspossessedtoggle,
+						level9mappossessedtoggle,
+						clockpossessedtoggle,
+						numberofrupeestoggle,
+						numberofkeystoggle,
+						triforcepiecestoggle,
+						boomerangininventorytoggle,
+						mboomerangininventorytoggle,
+						mshieldininventorytoggle,
+						maxnumbombstoggle,
+						numrupeestoaddtoggle, --drop down or buttons
+						numrupeestosubtoggle, --drop down or buttons
+						linkstuniccolortoggle, --drop down or buttons
+						linkstuniccoloralttoggle, --drop down or buttons
+						},
+					},
 				},
 		    }
 		};
@@ -495,7 +582,7 @@ while (true) do
 	local numberofkeys = memory.readbyte(0x066E);
 
 
-	-- Player 1 HPs
+	-- Link's HPs
 	local p1hp = memory.readbyte(0x066F);
 	local p1hplast = memory.readbyte(0x0670);
 
@@ -519,8 +606,18 @@ while (true) do
 	local lownibble = string.sub(p1hphex, 2);
 	local highnibble = string.sub(p1hphex, 1,1);
 
-	local p1lownibble = string.format("%d",lownibble);
-	local p1highnibble = string.format("%d",highnibble);
+	-- protect against nil
+	if (lownibble == "") then
+		lownibble = "0";
+	end;
+
+	if (highnibble == "") then
+		highnibble = "0";
+	end;
+
+	-- hex to decimal
+	local p1lownibble = tonumber(lownibble, 16);
+	local p1highnibble = tonumber(highnibble, 16);
 
 	local heartsfilled = tonumber(p1lownibble) + last;
 	local totalnumofheartcontainers = tonumber(p1highnibble) + 1;
@@ -569,7 +666,7 @@ while (true) do
 	linkylabel.title = p1ycoordinate; --Should be 240 - p1ycoordinate?
 	swordwbubcntdownlabel.title = swordwbubcntdown;
 	enemy1xlabel.title = enemy1x;
-	enemy1ylabel.title = enemy1x;
+	enemy1ylabel.title = enemy1y;
 	enemy2xlabel.title = enemy2x;
 	enemy2ylabel.title = enemy2y;
 	enemy3xlabel.title = enemy3x;
@@ -593,12 +690,12 @@ while (true) do
 	usedcandlelabel.title = usedcandle;
 	sworddisabledlabel.title = sworddisabled;
 	killedenemycountlabel.title = killedenemycount;
-	--currentQuestslot1label.title = currentQuestslot1;
-	--currentQuestslot2label.title = currentQuestslot2;
-	--currentQuestslot3label.title = currentQuestslot3;
-	--numdeathsslot1label.title = numdeathsslot1;
-	--numdeathsslot2label.title = numdeathsslot2;
-	--numdeathsslot3label.title = numdeathsslot3;
+	currentQuestslot1label.title = currentQuestslot1;
+	currentQuestslot2label.title = currentQuestslot2;
+	currentQuestslot3label.title = currentQuestslot3;
+	numdeathsslot1label.title = numdeathsslot1;
+	numdeathsslot2label.title = numdeathsslot2;
+	numdeathsslot3label.title = numdeathsslot3;
 	curposbitemlabel.title = curposbitem;
 	currentswordlabel.title = currentsword;
 	numbombslabel.title = numbombs;
@@ -616,22 +713,252 @@ while (true) do
 	magicalkeyininventorylabel.title = magicalkeyininventory;
 	powerbraceletininventorylabel.title = powerbraceletininventory;
 	letterininventorylabel.title = letterininventory;
-	--compassstatuslabel.title = compassstatus;
-	--mapstatuslabel.title = mapstatus;
-	--level9compasspossessedlabel.title = level9compasspossessed;
-	--level9mappossessedlabel.title = level9mappossessed;
-	--clockpossessedlabel.title = clockpossessed;
-	--numberofrupeeslabel.title = numberofrupees;
-	--numberofkeyslabel.title = numberofkeys;
-	--triforcepieceslabel.title = triforcepieces;
-	--boomerangininventorylabel.title = boomerangininventory;
-	--mboomerangininventorylabel.title = mboomerangininventory;
-	--mshieldininventorylabel.title = mshieldininventory;
-	--maxnumbombslabel.title = maxnumbombs;
-	--numrupeestoaddlabel.title = numrupeestoadd;
-	--numrupeestosublabel.title = numrupeestosub;
-	--linkstuniccolorlabel.title = linkstuniccolor;
-	--linkstuniccoloraltlabel.title = linkstuniccoloralt;
+	compassstatuslabel.title = compassstatus;
+	mapstatuslabel.title = mapstatus;
+	level9compasspossessedlabel.title = level9compasspossessed;
+	level9mappossessedlabel.title = level9mappossessed;
+	clockpossessedlabel.title = clockpossessed;
+	numberofrupeeslabel.title = numberofrupees;
+	numberofkeyslabel.title = numberofkeys;
+	triforcepieceslabel.title = triforcepieces;
+	boomerangininventorylabel.title = boomerangininventory;
+	mboomerangininventorylabel.title = mboomerangininventory;
+	mshieldininventorylabel.title = mshieldininventory;
+	maxnumbombslabel.title = maxnumbombs;
+	numrupeestoaddlabel.title = numrupeestoadd;
+	numrupeestosublabel.title = numrupeestosub;
+	linkstuniccolorlabel.title = linkstuniccolor;
+	linkstuniccoloraltlabel.title = linkstuniccoloralt;
+
+
+	-- functions:
+
+	-- max out the number of hearts
+	if (numheartstoggle.value == "ON") then
+
+		-- Link's HPs
+		local linkhp = memory.readbyte(0x066F);
+
+		-- decimal to hex
+		local linkhphex = string.format("%x",linkhp);
+
+		-- 0x066F Heart Containers
+		-- Low Nibble = how many hearts are filled.
+		local linklownibble = string.sub(linkhphex, 2);
+
+		-- protect against nil
+		if (linklownibble == "") then
+			linklownibble = "0";
+		end;
+
+		-- hex to decimal
+		local linklownibble = tonumber(linklownibble, 16);
+
+		-- write the high nibble of 0x66f with f
+		-- get the low nibble and add it to f
+		memory.writebyte(0x066F, linklownibble + 240);
+	end;
+
+	-- fill hearts
+	if (filledheartstoggle.value == "ON") then
+
+		local linkhp = memory.readbyte(0x066F);
+
+		-- decimal to hex
+		local linkhphex = string.format("%x",linkhp);
+
+		-- 0x066F Heart Containers
+		-- High Nibble = Number of heart containers - 1
+		local linkhighnibble = string.sub(linkhphex, 1,1);
+
+		if (linkhighnibble == "") then
+			linkhighnibble = "0";
+		end;
+
+		local linklownibble = "f";
+
+		local linkhexstring = linkhighnibble .. linklownibble;
+
+		-- hex to decimal
+		local linkhighnibble = tonumber(linkhexstring, 16);
+
+		memory.writebyte(0x066F, linkhighnibble);
+		memory.writebyte(0x0670, 255);
+	end;
+
+	-- Use sword after white bubble
+	if (swordwbubcntdowntoggle.value == "ON") then
+		memory.writebyte(0x004C, 0);
+	end;
+
+
+	if (pausedtoggle.value == "ON") then
+		memory.writebyte(0x00E0, 1);
+	end;
+
+	if (usedcandletoggle.value == "ON") then
+		memory.writebyte(0x0513, 0);
+	end;
+
+	if (sworddisabledtoggle.value == "ON") then
+		memory.writebyte(0x052E, 0);
+	end;
+
+	if (killedenemycounttoggle.value == "ON") then
+		memory.writebyte(0x0627, 255);
+	end;
+
+	if (currentQuestslot1toggle.value == "ON") then
+		memory.writebyte(0x062D, 1);
+	end;
+
+	if (currentQuestslot2toggle.value == "ON") then
+		memory.writebyte(0x062E, 1);
+	end;
+
+	if (currentQuestslot3toggle.value == "ON") then
+		memory.writebyte(0x062F, 1);
+	end;
+
+	if(numdeathsslot1toggle.value == "ON") then
+		memory.writebyte(0x0630, 0);
+	end;
+
+	if(numdeathsslot2toggle.value == "ON") then
+		memory.writebyte(0x0631, 0);
+	end;
+
+	if(numdeathsslot3toggle.value == "ON") then
+		memory.writebyte(0x0632, 0);
+	end;
+
+	if(currentswordtoggle.value == "ON") then
+		memory.writebyte(0x0657, 3);
+	end;
+
+	if(numbombstoggle.value == "ON") then
+		memory.writebyte(0x0658, 255);
+	end;
+
+	if(arrowstatustoggle.value == "ON") then
+		memory.writebyte(0x0659, 2);
+	end;
+
+	if(bowininventorytoggle.value == "ON") then
+		memory.writebyte(0x065A, 1);
+	end;
+
+	if(candlestatustoggle.value == "ON") then
+		memory.writebyte(0x065B, 2);
+	end;
+
+	if (whistleininventorytoggle.value == "ON") then
+		memory.writebyte(0x065C, 1);
+	end;
+
+	if (foodininventorytoggle.value == "ON") then
+		memory.writebyte(0x065D, 1);
+	end;
+
+	if (potionininventorytoggle.value == "ON") then
+		memory.writebyte(0x065E, 2);
+	end;
+
+	if (magicrodininventorytoggle.value == "ON") then
+		memory.writebyte(0x065F, 1);
+	end;
+
+	if (raftininventorytoggle.value == "ON") then
+		memory.writebyte(0x0660, 1);
+	end;
+
+	if (magicbookininventorytoggle.value == "ON") then
+		memory.writebyte(0x0661, 1);
+	end;
+
+	if (ringininventorytoggle.value == "ON") then
+		memory.writebyte(0x0662, 2);
+	end;
+
+	if (stepladdertoggle.value == "ON") then
+		memory.writebyte(0x0663, 1);
+	end;
+
+	if (magicalkeyininventorytoggle.value == "ON") then
+		memory.writebyte(0x0664, 1);
+	end;
+
+	if (powerbraceletininventorytoggle.value == "ON") then
+		memory.writebyte(0x0665, 1);
+	end;
+
+	if (letterininventorytoggle.value == "ON") then
+		memory.writebyte(0x0666, 2);
+	end;
+
+	if (compassstatustoggle.value == "ON") then
+		memory.writebyte(0x0667, 1);
+	end;
+
+	if (mapstatustoggle.value == "ON") then
+		memory.writebyte(0x0668, 1);
+	end;
+
+	if (level9compasspossessedtoggle.value == "ON") then
+		memory.writebyte(0x0669, 1);
+	end;
+
+	if (level9mappossessedtoggle.value == "ON") then
+		memory.writebyte(0x066A, 1);
+	end;
+
+	if (clockpossessedtoggle.value == "ON") then
+		memory.writebyte(0x066C, 1);
+	end;
+
+	if (numberofrupeestoggle.value == "ON") then
+		memory.writebyte(0x066D, 255);
+	end;
+
+	if (numberofkeystoggle.value == "ON") then
+		memory.writebyte(0x066E, 255);
+	end;
+
+	if (triforcepiecestoggle.value == "ON") then
+		memory.writebyte(0x0671, 255);
+	end;
+
+	if (boomerangininventorytoggle.value == "ON") then
+		memory.writebyte(0x0674, 1);
+	end;
+
+	if (mboomerangininventorytoggle.value == "ON") then
+		memory.writebyte(0x0675, 1);
+	end;
+
+	if (mshieldininventorytoggle.value == "ON") then
+		memory.writebyte(0x0676, 1);
+	end;
+
+	if (maxnumbombstoggle.value == "ON") then
+		memory.writebyte(0x067C, 255);
+	end;
+
+	if (numrupeestoaddtoggle.value == "ON") then
+		memory.writebyte(0x067D, 255);
+	end;
+
+	if (numrupeestosubtoggle.value == "ON") then
+		memory.writebyte(0x067E, 255);
+	end;
+
+	if (linkstuniccolortoggle.value == "ON") then
+		memory.writebyte(0x6804, 16);
+	end;
+
+	if (linkstuniccoloralttoggle.value == "ON") then
+		memory.writebyte(0x6B92, 16);
+	end;
 
 	FCEU.frameadvance();
 end;
