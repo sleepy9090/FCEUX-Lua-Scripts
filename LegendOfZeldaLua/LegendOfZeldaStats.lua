@@ -1,83 +1,87 @@
 
 -- Legend of Zelda, The (U) (PRG0) [!].nes
 -- Written by sleepy - Shawn M. Crawford
--- 16 January 2014
+-- 17 January 2014
 -- Displays game stats in a gui.
 
 require 'auxlib';
 
--- labels
-local numheartslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local filledheartslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local linkxlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local linkylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local swordwbubcntdownlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy1xlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy1ylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy2xlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy2ylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy3xlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy3ylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy4xlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy4ylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy5xlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy5ylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy6xlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy6ylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy7xlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy7ylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy8xlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local enemy8ylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local boomerangbaitxlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local boomerangbaitylabel =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local arrowxlabel =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local arrowylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local pausedlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local maplocationlabel =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local usedcandlelabel =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local sworddisabledlabel =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local killedenemycountlabel =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local currentQuestslot1label =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local currentQuestslot2label =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local currentQuestslot3label =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local numdeathsslot1label =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local numdeathsslot2label =  iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local numdeathsslot3label = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local curposbitemlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local currentswordlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local numbombslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local arrowstatuslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local bowininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local candlestatuslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local whistleininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local foodininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local potionininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local magicrodininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local raftininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local magicbookininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local ringininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local stepladderininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local magicalkeyininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local powerbraceletininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local letterininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local compassstatuslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local mapstatuslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local level9compasspossessedlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local level9mappossessedlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local clockpossessedlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local numberofrupeeslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local numberofkeyslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local triforcepieceslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local boomerangininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local mboomerangininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local mshieldininventorylabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local maxnumbombslabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local numrupeestoaddlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local numrupeestosublabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local linkstuniccolorlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
-local linkstuniccoloraltlabel = iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
+function creategenericlabel()
+	return iup.label{size="35x8",title="Initializing...", alignment="ACENTER"};
+end;
 
--- toggles
+-- labels
+local numheartslabel = creategenericlabel();
+local filledheartslabel = creategenericlabel();
+local linkxlabel = creategenericlabel();
+local linkylabel = creategenericlabel();
+local swordwbubcntdownlabel = creategenericlabel();
+local enemy1xlabel = creategenericlabel();
+local enemy1ylabel = creategenericlabel();
+local enemy2xlabel = creategenericlabel();
+local enemy2ylabel = creategenericlabel();
+local enemy3xlabel = creategenericlabel();
+local enemy3ylabel = creategenericlabel();
+local enemy4xlabel = creategenericlabel();
+local enemy4ylabel = creategenericlabel();
+local enemy5xlabel = creategenericlabel();
+local enemy5ylabel = creategenericlabel();
+local enemy6xlabel = creategenericlabel();
+local enemy6ylabel = creategenericlabel();
+local enemy7xlabel = creategenericlabel();
+local enemy7ylabel = creategenericlabel();
+local enemy8xlabel = creategenericlabel();
+local enemy8ylabel = creategenericlabel();
+local boomerangbaitxlabel = creategenericlabel();
+local boomerangbaitylabel =  creategenericlabel();
+local arrowxlabel =  creategenericlabel();
+local arrowylabel = creategenericlabel();
+local pausedlabel = creategenericlabel();
+local maplocationlabel = creategenericlabel();
+local usedcandlelabel =  creategenericlabel();
+local sworddisabledlabel = creategenericlabel();
+local killedenemycountlabel = creategenericlabel();
+local currentQuestslot1label = creategenericlabel();
+local currentQuestslot2label = creategenericlabel();
+local currentQuestslot3label = creategenericlabel();
+local numdeathsslot1label = creategenericlabel();
+local numdeathsslot2label = creategenericlabel();
+local numdeathsslot3label = creategenericlabel();
+local curposbitemlabel = creategenericlabel();
+local numbombslabel = creategenericlabel();
+local bowininventorylabel = creategenericlabel();
+local whistleininventorylabel = creategenericlabel();
+local foodininventorylabel = creategenericlabel();
+local potionininventorylabel = creategenericlabel();
+local magicrodininventorylabel = creategenericlabel();
+local raftininventorylabel = creategenericlabel();
+local magicbookininventorylabel = creategenericlabel();
+local ringininventorylabel = creategenericlabel();
+local stepladderininventorylabel = creategenericlabel();
+local magicalkeyininventorylabel = creategenericlabel();
+local powerbraceletininventorylabel = creategenericlabel();
+local letterininventorylabel = creategenericlabel();
+local compassstatuslabel = creategenericlabel();
+local mapstatuslabel = creategenericlabel();
+local level9compasspossessedlabel = creategenericlabel();
+local level9mappossessedlabel = creategenericlabel();
+local clockpossessedlabel = creategenericlabel();
+local numberofrupeeslabel = creategenericlabel();
+local numberofkeyslabel = creategenericlabel();
+local triforcepieceslabel = creategenericlabel();
+local boomerangininventorylabel = creategenericlabel();
+local mboomerangininventorylabel = creategenericlabel();
+local mshieldininventorylabel = creategenericlabel();
+local maxnumbombslabel = creategenericlabel();
+local numrupeestoaddlabel = creategenericlabel();
+local numrupeestosublabel = creategenericlabel();
+local linkstuniccolorlabel = creategenericlabel();
+local linkstuniccoloraltlabel = creategenericlabel();
+local currentswordlabel = iup.label{size="35x10",title="Initializing...", alignment="ACENTER"};
+local arrowstatuslabel = iup.label{size="35x10",title="Initializing...", alignment="ACENTER"};
+local candlestatuslabel = iup.label{size="35x10",title="Initializing...", alignment="ACENTER"};
+
+-- toggles, lists
 local numheartstoggle = iup.toggle{size="150x8",title="Max heart containers", value="OFF"};
 local filledheartstoggle = iup.toggle{size="150x8",title="Fill heart containers", value="OFF"};
 iup.label{size="150x8",title=""};
@@ -115,11 +119,8 @@ local numdeathsslot1toggle = iup.toggle{size="150x8",title="Reset number of deat
 local numdeathsslot2toggle = iup.toggle{size="150x8",title="Reset number of deaths to 0", value="OFF"};
 local numdeathsslot3toggle = iup.toggle{size="150x8",title="Reset number of deaths to 0", value="OFF"},
 iup.label{size="150x8",title=""};
-local currentswordtoggle = iup.toggle{size="150x8",title="Set current sword", value="OFF"}; --drop down or buttons
 local numbombstoggle = iup.toggle{size="150x8",title="Max out current bombs", value="OFF"};
-local arrowstatustoggle = iup.toggle{size="150x8",title="Set current arrow", value="OFF"}; --drop down or buttons
 local bowininventorytoggle = iup.toggle{size="150x8",title="Add bow to inventory", value="OFF"};
-local candlestatustoggle = iup.toggle{size="150x8",title="Set current candle", value="OFF"}; --drop down or buttons
 local whistleininventorytoggle = iup.toggle{size="150x8",title="Add whistle to inventory", value="OFF"};
 local foodininventorytoggle = iup.toggle{size="150x8",title="Add food to inventory", value="OFF"};
 local potionininventorytoggle = iup.toggle{size="150x8",title="Add potion to inventory", value="OFF"};
@@ -143,10 +144,13 @@ local boomerangininventorytoggle = iup.toggle{size="150x8",title="Add boomerang 
 local mboomerangininventorytoggle = iup.toggle{size="150x8",title="Add magical boomerange to inventory", value="OFF"};
 local mshieldininventorytoggle = iup.toggle{size="150x8",title="Add magic shield to inventory", value="OFF"};
 local maxnumbombstoggle = iup.toggle{size="150x8",title="Max out total bombs", value="OFF"};
-local numrupeestoaddtoggle = iup.toggle{size="150x8",title="Add 255 rupees", value="OFF"}; --drop down or buttons
-local numrupeestosubtoggle = iup.toggle{size="150x8",title="Subtract 255 rupees", value="OFF"}; --drop down or buttons
-local linkstuniccolortoggle = iup.toggle{size="150x8",title="Set Links tunic color red", value="OFF"}; --drop down or buttons
-local linkstuniccoloralttoggle = iup.toggle{size="150x8",title="Set Links tunic color red alt", value="OFF"}; --drop down or buttons
+local numrupeestoaddtoggle = iup.toggle{size="150x8",title="Add 255 rupees", value="OFF"};
+local numrupeestosubtoggle = iup.toggle{size="150x8",title="Subtract 255 rupees", value="OFF"};
+local linkstuniccolortoggle = iup.toggle{size="150x8",title="Set Links tunic color red", value="OFF"}; --TODO: change to drop down
+local linkstuniccoloralttoggle = iup.toggle{size="150x8",title="Set Links tunic color red alt", value="OFF"}; --TODO: change to drop down
+local currentswordlist = iup.list{"No Sword","Wooden Sword","White Sword","Magical Sword";size="150x10",DROPDOWN="YES"};
+local arrowstatuslist = iup.list{"No Arrow","Wooden Arrow","Magic Arrow";size="150x10",DROPDOWN="YES"};
+local candlestatuslist = iup.list{"No Candle","White Candle","Red Candle";size="150x10",DROPDOWN="YES"};
 
 dialogs = dialogs + 1;
 	handles[dialogs] =
@@ -280,12 +284,9 @@ dialogs = dialogs + 1;
 				  	title="Description",
 						iup.vbox{
 							iup.label{size="150x8",title="Number of deaths slot 3"},
-							iup.label{size="150x8",title="Curser position B item"},
-							iup.label{size="150x8",title="Current sword"},
+							iup.label{size="150x8",title="Cursor position B item"},
 							iup.label{size="150x8",title="Number of bombs"},
-							iup.label{size="150x8",title="Current arrow"},
 							iup.label{size="150x8",title="Bow in current inventory"},
-							iup.label{size="150x8",title="Candle in current inventory"},
 							iup.label{size="150x8",title="Whistle in current inventory"},
 							iup.label{size="150x8",title="Food in current inventory"},
 							iup.label{size="150x8",title="Potion in current inventory"},
@@ -313,6 +314,9 @@ dialogs = dialogs + 1;
 							iup.label{size="150x8",title="Number of rupees subtracting"},
 							iup.label{size="150x8",title="Color of Link's tunic"},
 							iup.label{size="150x8",title="Color of Link's tunic alt"},
+							iup.label{size="150x10",title="Current sword"},
+							iup.label{size="150x10",title="Current arrow"},
+							iup.label{size="150x10",title="Candle in current inventory"},
 						},
 					},
 					iup.frame{
@@ -320,11 +324,8 @@ dialogs = dialogs + 1;
 						iup.vbox{
 							numdeathsslot3label,
 							curposbitemlabel,
-							currentswordlabel,
 							numbombslabel,
-							arrowstatuslabel,
 							bowininventorylabel,
-							candlestatuslabel,
 							whistleininventorylabel,
 							foodininventorylabel,
 							potionininventorylabel,
@@ -352,6 +353,9 @@ dialogs = dialogs + 1;
 							numrupeestosublabel,
 							linkstuniccolorlabel,
 							linkstuniccoloraltlabel,
+							currentswordlabel,
+							arrowstatuslabel,
+							candlestatuslabel,
 						},
 					},
 					iup.frame{
@@ -359,11 +363,8 @@ dialogs = dialogs + 1;
 						iup.vbox{
 						numdeathsslot3toggle,
 						iup.label{size="150x8",title=""},
-						currentswordtoggle, --drop down or buttons
 						numbombstoggle,
-						arrowstatustoggle, --drop down or buttons
 						bowininventorytoggle,
-						candlestatustoggle, --drop down or buttons
 						whistleininventorytoggle,
 						foodininventorytoggle,
 						potionininventorytoggle,
@@ -387,10 +388,13 @@ dialogs = dialogs + 1;
 						mboomerangininventorytoggle,
 						mshieldininventorytoggle,
 						maxnumbombstoggle,
-						numrupeestoaddtoggle, --drop down or buttons
-						numrupeestosubtoggle, --drop down or buttons
-						linkstuniccolortoggle, --drop down or buttons
-						linkstuniccoloralttoggle, --drop down or buttons
+						numrupeestoaddtoggle,
+						numrupeestosubtoggle,
+						linkstuniccolortoggle,
+						linkstuniccoloralttoggle,
+						currentswordlist,
+						arrowstatuslist,
+						candlestatuslist,
 						},
 					},
 				},
@@ -832,7 +836,13 @@ while (true) do
 		memory.writebyte(0x0632, 0);
 	end;
 
-	if(currentswordtoggle.value == "ON") then
+	if(currentswordlist.value == "1") then
+		memory.writebyte(0x0657, 0);
+	elseif(currentswordlist.value == "2") then
+		memory.writebyte(0x0657, 1);
+	elseif(currentswordlist.value == "3") then
+		memory.writebyte(0x0657, 2);
+	elseif(currentswordlist.value == "4") then
 		memory.writebyte(0x0657, 3);
 	end;
 
@@ -840,7 +850,11 @@ while (true) do
 		memory.writebyte(0x0658, 255);
 	end;
 
-	if(arrowstatustoggle.value == "ON") then
+	if(arrowstatuslist.value == "1") then
+		memory.writebyte(0x0659, 0);
+	elseif(arrowstatuslist.value == "2") then
+		memory.writebyte(0x0659, 1);
+	elseif(arrowstatuslist.value == "3") then
 		memory.writebyte(0x0659, 2);
 	end;
 
@@ -848,7 +862,11 @@ while (true) do
 		memory.writebyte(0x065A, 1);
 	end;
 
-	if(candlestatustoggle.value == "ON") then
+	if(candlestatuslist.value == "1") then
+		memory.writebyte(0x065B, 0);
+	elseif(candlestatuslist.value == "2") then
+		memory.writebyte(0x065B, 1);
+	elseif(candlestatuslist.value == "3") then
 		memory.writebyte(0x065B, 2);
 	end;
 
